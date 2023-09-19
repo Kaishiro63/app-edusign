@@ -9,7 +9,7 @@ import ProfilScreen from "./src/screens/ProfilScreen";
 import DocumentScreen from "./src/screens/DocumentsScreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import HomeScreen from "./src/screens/HomeScreen";
-import loginScreen from "./src/screens/loginScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
