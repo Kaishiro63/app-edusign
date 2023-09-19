@@ -4,11 +4,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import statsScreen from "./src/screens/statsScreen";
-import profilScreen from "./src/screens/profilScreen";
-import documentScreen from "./src/screens/documentsScreen";
-import calendarScreen from "./src/screens/calendarScreen";
-import homeScreen from "./src/screens/homeScreen";
+import StatsScreen from "./src/screens/StatsScreen";
+import ProfilScreen from "./src/screens/ProfilScreen";
+import DocumentScreen from "./src/screens/DocumentsScreen";
+import CalendarScreen from "./src/screens/CalendarScreen";
+import HomeScreen from "./src/screens/HomeScreen";
 import loginScreen from "./src/screens/loginScreen";
 
 import { Provider } from "react-redux";
@@ -47,11 +47,11 @@ const TabNavigator = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={homeScreen} />
-      <Tab.Screen name="Stats" component={statsScreen} />
-      <Tab.Screen name="Documents" component={documentScreen} />
-      <Tab.Screen name="Calendar" component={calendarScreen} />
-      <Tab.Screen name="Profil" component={profilScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Stats" component={StatsScreen} />
+      <Tab.Screen name="Documents" component={DocumentScreen} />
+      <Tab.Screen name="Calendar" component={CalendarScreen} />
+      <Tab.Screen name="Profil" component={ProfilScreen} />
     </Tab.Navigator>
   );
 };
@@ -61,7 +61,8 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={loginScreen} />
+          {/* <Stack.Screen name="Login" component={loginScreen} /> */}
+          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="TabNavigator" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
