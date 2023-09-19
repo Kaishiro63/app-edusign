@@ -4,12 +4,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import statsScreen from "./screens/statsScreen";
-import profilScreen from "./screens/profilScreen";
-import documentScreen from "./screens/documentsScreen";
-import calendarScreen from "./screens/calendarScreen";
-import homeScreen from "./screens/homeScreen";
-import loginScreen from "./screens/loginScreen";
+import statsScreen from "./src/screens/statsScreen";
+import profilScreen from "./src/screens/profilScreen";
+import documentScreen from "./src/screens/documentsScreen";
+import calendarScreen from "./src/screens/calendarScreen";
+import homeScreen from "./src/screens/homeScreen";
+import loginScreen from "./src/screens/loginScreen";
 
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
