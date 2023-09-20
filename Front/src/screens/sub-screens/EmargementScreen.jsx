@@ -17,6 +17,7 @@ const EmargementScreen = () => {
           return;
         } else {
           setCours(data.cours);
+          console.log(data.cours);
         }
       } catch (error) {
         console.log(error);
