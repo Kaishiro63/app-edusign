@@ -1,14 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
 import DocumentsScreen from "../screens/DocumentsScreen";
 import StatsScreen from "../screens/StatsScreen";
 import ProfilScreen from "../screens/ProfilScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import SignScreen from "../screens/SignScreen";
-import ScannerScreen from "../screens/ScannerScreen";
 
 const Tab = createBottomTabNavigator();
 
