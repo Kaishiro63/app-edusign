@@ -12,6 +12,26 @@ function LoginScreen({ navigation }) {
         setShowPassword(!showPassword);
     };
 
+    const handleSubmit = async () => {
+        console.log('test')
+        try {
+            const response = await fetch('https://app-edusign-back1.vercel.app/users/login', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email, password})
+            })
+            let data = await response.json()
+            console.log(data)
+            navigation.navigate('TabNavigator');
+        }
+        catch (e) {
+        if (e instanceof Error)
+            setError(e.message)
+        }
+    };
+
     return (
 
         <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -82,9 +102,7 @@ function LoginScreen({ navigation }) {
                 <View style={styles.flex}>
                     <TouchableOpacity
                         style={styles.loginBtn}
-                        onPress={() => {
-                            // Gérer la connexion ici
-                        }}
+                        onPress={() => handleSubmit()}
                     >
                         <Text style={styles.loginBtnText}>Connexion</Text>
                     </TouchableOpacity>
