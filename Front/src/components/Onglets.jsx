@@ -15,7 +15,7 @@ const Onglets = () => {
             screenOptions={{
                 tabBarActiveTintColor: 'black',
                 tabBarIndicatorStyle: { backgroundColor: Colors.primaryYellow },
-                tabBarLabelStyle: { textTransform: 'None', fontWeight: 'bold', fontSize: 15 },
+                tabBarLabelStyle: { textTransform: 'none', fontWeight: 'bold', fontSize: 15 },
                 tabBarLabelPosition: 'left',
             }}
         >

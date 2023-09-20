@@ -42,7 +42,7 @@ const MainTabBar = () => {
                 return <FontAwesome name={iconName} size={size} color={color} />;
 
               } else if (route.name === "Signature") {
-                iconName = "pen";
+                iconName = "user-circle-o";
                 return <FontAwesome name={iconName} size={size} color={color} />;
 
               }
