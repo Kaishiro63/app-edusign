@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { Colors } from "../colors";
 
 const StatsScreen = () => {
     return (
@@ -7,7 +8,7 @@ const StatsScreen = () => {
             <Text>Statistique</Text>
             <View>
                 <LinearGradient
-                    colors={['#568AF5', '#D8E8FE']}
+                    colors={[Colors.primaryBlue, Colors.lightBlue]}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.card}
@@ -16,7 +17,7 @@ const StatsScreen = () => {
                 </LinearGradient>
 
                 <LinearGradient
-                    colors={['#71BE72', '#DBF1DD']}
+                    colors={[Colors.primaryGreen, Colors.lightGreen]}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.card}
@@ -25,7 +26,7 @@ const StatsScreen = () => {
                 </LinearGradient>
 
                 <LinearGradient
-                    colors={['#F5C445', '#F0C5B4']}
+                    colors={[ Colors.primaryOrange, Colors.lightOrange]}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.card}
@@ -34,7 +35,7 @@ const StatsScreen = () => {
                 </LinearGradient>
 
                 <LinearGradient
-                    colors={['#DF7651', '#EFC4B4']}
+                    colors={[Colors.primaryRed, Colors.lightRed]}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.card}
