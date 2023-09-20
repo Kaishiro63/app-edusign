@@ -6,7 +6,7 @@ export const Colors = {
     primaryGreen: '#71BE72',
     lightGreen: '#DBF1DD',
     primaryOrange: '#F5C445',
-    secondaryOrange: '#f0c5b4',
+    lightOrange: '#f0c5b4',
     primaryRed: '#df7651',
-    secondaryRed: '#efc4b4',
+    lightRed: '#efc4b4',
   };
