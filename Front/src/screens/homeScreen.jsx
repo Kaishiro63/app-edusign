@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import Onglets from '../components/Onglets';
 const HomeScreen = () => {
     const [cards, setCards] = useState([1, 2, 3]); // Initial array of cards
 
@@ -40,6 +41,7 @@ const HomeScreen = () => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <Onglets />
         </View>
     );
 };
