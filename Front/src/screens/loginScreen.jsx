@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvo
 import Swiper from "react-native-web-swiper";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-function loginScreen({ navigation }) {
+function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -172,4 +172,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default loginScreen;
+export default LoginScreen;
