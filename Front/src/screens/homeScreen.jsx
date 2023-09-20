@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Onglets from '../components/Onglets';
 const HomeScreen = () => {
@@ -24,21 +24,25 @@ const HomeScreen = () => {
                     style={screenStyles.scrollViewContainer}
                 >
                     {cards.map((card, index) => (
-                        <TouchableOpacity key={index} style={screenStyles.card}>
-                            <Text style={screenStyles.text}>Conseezkrjezikerjziezjerjil N°{card}</Text>
-                            <TouchableOpacity
-                                style={screenStyles.closeButton}
-                                onPress={() => removeCard(index)} // Call removeCard function on press
-                            >
-                            <Text style={screenStyles.closeButtonText}>X</Text>
+                        <LinearGradient colors={['#F6C444', '#FCECB8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={screenStyles.card}>
+                            <TouchableOpacity key={index} >
+                                <Text style={screenStyles.text}>Asynchrone ou synchrone, lequel choisir pour un apprentissage réussi ?</Text>
                             </TouchableOpacity>
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                    style={screenStyles.closeButton}
+                                    onPress={() => removeCard(index)} // Call removeCard function on press
+                                >
+                                <Text style={screenStyles.closeButtonText}>X</Text>
+                            </TouchableOpacity>
+                        </LinearGradient>
                     ))}
                 </ScrollView>
                 <View style={{display: 'flex', justifyContent: 'flex-start'}}>
-                    <TouchableOpacity style={screenStyles.buttonContainer}>
-                        <Text style={screenStyles.buttonText}>🏠 Justifier une absence</Text>
-                    </TouchableOpacity>
+                    <LinearGradient colors={['#F6C444', '#FCECB8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={screenStyles.buttonContainer}>
+                        <TouchableOpacity>
+                            <Text style={screenStyles.buttonText}>🏠 Justifier une absence</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>
                 </View>
             </View>
             <Onglets />
@@ -55,10 +59,12 @@ const screenStyles = StyleSheet.create({
 
     },
     title: {
-        fontSize: 30,
+        fontSize: 28,
+        fontWeight: 'bold'
     },
     text: {
         fontSize: 20,
+        fontWeight: 'bold',
     },
     scrollViewContainer: {
         maxHeight: '100%',
@@ -71,13 +77,14 @@ const screenStyles = StyleSheet.create({
 
     },
     card: {
-        backgroundColor: 'orange',
-        borderRadius: 25,
+        borderRadius: 10,
         height: 150,
-        width: 200,
+        width: 250,
         padding: 15,
         marginRight: 15,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 20,
+        position: 'relative'
     },
     closeButton: {
         position: 'absolute',
@@ -88,17 +95,22 @@ const screenStyles = StyleSheet.create({
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        color: 'white'
+    },
+    closeButtonText: {
+        color: '#FFF',
     },
     buttonContainer:{
-        backgroundColor: 'orange',
-        padding: 15,
-        marginHorizontal: 'auto',
-        alignItems: 'center',
-        width: '65%'
+        borderRadius: 2,
+        marginTop: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        width: 200,
     },
     buttonText:{
-        fontSize: 18
+        fontSize: 14,
+        textAlign: 'center',
     }
 });
 
