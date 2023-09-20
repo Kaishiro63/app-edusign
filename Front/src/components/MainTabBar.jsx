@@ -7,7 +7,8 @@ import DocumentsScreen from "../screens/DocumentsScreen";
 import StatsScreen from "../screens/StatsScreen";
 import ProfilScreen from "../screens/ProfilScreen";
 import CalendarScreen from "../screens/CalendarScreen";
-import SignatureScreen from "../screens/SignatureScreen";
+import SignScreen from "../screens/SignScreen";
+import ScannerScreen from "../screens/ScannerScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -52,13 +53,12 @@ const MainTabBar = () => {
             tabBarInactiveTintColor: "#8a8a8a",
             headerShown: true,
           })}>
-            <Tab.Screen name="Login" component={LoginScreen} />
             <Tab.Screen name="Accueil" component={HomeScreen} />
             <Tab.Screen name="Statistiques" component={StatsScreen} />
             <Tab.Screen name="Documents" component={DocumentsScreen} />
             <Tab.Screen name="Calendrier" component={CalendarScreen} />
             <Tab.Screen name="Profil" component={ProfilScreen} />
-            <Tab.Screen name="Signature" component={SignatureScreen} />
+            <Tab.Screen name="Signature" component={SignScreen} />
 
         </Tab.Navigator>
     );

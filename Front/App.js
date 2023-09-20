@@ -7,6 +7,7 @@ import MainTabBar from "./src/components/MainTabBar";
 import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import user from "./reducers/user";
+import ScannerScreen from "./src/screens/ScannerScreen";
 
 const store = configureStore({
   reducer: { user },
@@ -22,6 +23,7 @@ export default function App() {
           <Stack.Screen name="MainTab" component={MainTabBar} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Scan" component={ScannerScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
