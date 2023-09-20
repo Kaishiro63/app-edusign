@@ -7,6 +7,7 @@ import DocumentsScreen from "../screens/DocumentsScreen";
 import StatsScreen from "../screens/StatsScreen";
 import ProfilScreen from "../screens/ProfilScreen";
 import CalendarScreen from "../screens/CalendarScreen";
+import SignatureScreen from "../screens/SignatureScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,7 @@ const MainTabBar = () => {
             },
             tabBarIcon: ({ color, size }) => {
               let iconName = "";
-    
+
               if (route.name === "Accueil") {
                 iconName = "home";
                 return <FontAwesome name={iconName} size={size} color={color} />;
@@ -40,6 +41,10 @@ const MainTabBar = () => {
                 iconName = "user-circle-o";
                 return <FontAwesome name={iconName} size={size} color={color} />;
 
+              } else if (route.name === "Signature") {
+                iconName = "pen";
+                return <FontAwesome name={iconName} size={size} color={color} />;
+
               }
 
             },
@@ -53,6 +58,7 @@ const MainTabBar = () => {
             <Tab.Screen name="Documents" component={DocumentsScreen} />
             <Tab.Screen name="Calendrier" component={CalendarScreen} />
             <Tab.Screen name="Profil" component={ProfilScreen} />
+            <Tab.Screen name="Signature" component={SignatureScreen} />
 
         </Tab.Navigator>
     );

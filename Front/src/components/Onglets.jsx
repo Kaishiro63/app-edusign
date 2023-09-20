@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import EmargementScreen from "../screens/sub-screens/EmargementScreen";
 import QuestionnaireScreen from "../screens/sub-screens/QuestionnairesScreen";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { Colors } from "../colors";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -12,8 +13,10 @@ const Onglets = () => {
     return (
         <Tab.Navigator
             screenOptions={{
-                tabBarLabelStyle: { backgroundColor: 'powderblue' },
-
+                tabBarActiveTintColor: 'black',
+                tabBarIndicatorStyle: { backgroundColor: Colors.primaryYellow },
+                tabBarLabelStyle: { textTransform: 'None', fontWeight: 'bold', fontSize: 15 },
+                tabBarLabelPosition: 'left',
             }}
         >
             <Tab.Screen name="Emargement" component={EmargementScreen} />
