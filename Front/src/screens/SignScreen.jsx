@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import SignatureScreen from 'react-native-signature-canvas';
+import { useSelector } from "react-redux";
 
 const SignScreen = ({ navigation }) => {
+  const currentUser = useSelector((state) => state.user.value);
   const [user, setUser] = useState([]);
   const ref = useRef();
   const [signaturePresent, setSignaturePresent] = useState(false);
@@ -29,7 +31,7 @@ const SignScreen = ({ navigation }) => {
       console.log("test");
       try {
         const response = await fetch(
-          "https://app-edusign-back1.vercel.app/users/profile?uid=650ab8c16ea8d8449ae3be12"
+          `https://app-edusign-back1.vercel.app/users/profile?uid=${currentUser.id}`
         );
         const data = await response.json();
         if (!data.result) {
