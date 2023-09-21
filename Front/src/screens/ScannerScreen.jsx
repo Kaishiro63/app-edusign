@@ -4,56 +4,61 @@ import { Camera } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from "react-redux";
 
-
 const ScannerScreen = () => {
+  const currentUser = useSelector((state) => state.user.value);
+  const navigation = useNavigation();
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
 
-    const currentUser = useSelector((state) => state.user.value);
-    const navigation = useNavigation();
-    const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
+  const handleGoBack = () => {
+    navigation.goBack();
+  }
 
-    const handleGoBack = () => {
-        navigation.goBack();
-    }
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
-    useEffect(() => {
-        (async () => {
-        const { status } = await Camera.requestPermissionsAsync();
-        setHasPermission(status === 'granted');
-        })();
-    }, []);
-
-    const handleBarCodeScanned = ({ type, data }) => {
-      setScanned(true);
-      const userId = currentUser ? currentUser.id : 'Unknown user';
-      alert(`Type de code : ${type}\nDonnées : ${data}\nUtilisateur : ${userId}`);
+  const sendPostRequest = async (userId, coursId) => {
+    const requestData = {
+      userId: userId,
+      coursId: coursId,
     };
-    
 
-    if (hasPermission === null) {
-        return <View />;
+    try {
+      const response = await fetch('https://app-edusign-back1.vercel.app/cours/present', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      const responseData = await response.json();
+      console.log('Réponse de la requête POST :', responseData);
+    } catch (error) {
+      console.error('Erreur lors de la requête POST :', error);
     }
+  };
 
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
+  const handleBarCodeScanned = ({ data }) => {
+    setScanned(true);
+    const userId = currentUser ? currentUser.id : 'Unknown user';
+    const coursId = data;
 
-    const sendPostRequest = async (data) => {
-      try {
-        const response = await fetch('https://app-edusign-back1.vercel.app/present', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ data }),
-        });
-  
-        const responseData = await response.json();
-        console.log('Réponse de la requête POST :', responseData);
-      } catch (error) {
-        console.error('Erreur lors de la requête POST :', error);
-      }
-    };
+    sendPostRequest(userId, coursId);
+    navigation.navigate('Accueil');
+  };
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -82,7 +87,7 @@ const ScannerScreen = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.btn} onPress={() => handleGoBack()}>
-            <Text style={styles.btnText}>Retour</Text>
+          <Text style={styles.btnText}>Retour</Text>
         </TouchableOpacity>
       </Camera>
     </View>
@@ -90,22 +95,22 @@ const ScannerScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    btn: {
-        position: "absolute",
-        top: 50,
-        right: 20,
-        width: "30%",
-        borderRadius: 25,
-        height: 30,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 20,
-        backgroundColor: "#F7BA09",
-    },
-    btnText: {
-        color: "#FFF",
-        fontWeight: "bold",
-    },
+  btn: {
+    position: "absolute",
+    top: 50,
+    right: 20,
+    width: "30%",
+    borderRadius: 25,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#F7BA09",
+  },
+  btnText: {
+    color: "#FFF",
+    fontWeight: "bold",
+  },
 });
 
 export default ScannerScreen;

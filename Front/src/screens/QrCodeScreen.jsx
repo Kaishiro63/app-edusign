@@ -3,6 +3,7 @@ import { View, TextInput, Button, Text } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useIsFocused } from '@react-navigation/native';
 
+
 const QRCodeGenerator = ({ route }) => {
   const [inputData, setInputData] = useState('');
   const isFocused = useIsFocused();
