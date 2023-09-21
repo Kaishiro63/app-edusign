@@ -1,52 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 
-const AdminScreen = ({navigation}) => {
+
+const AdminScreen = ({ navigation }) => {
   const [user, setUser] = useState();
   const [myCours, setMyCours] = useState([]);
+  const currentUser = useSelector((state) => state.user.value);
+
 
   useEffect(() => {
     (async () => {
       try {
         const response = await fetch(
-          "https://app-edusign-back1.vercel.app/users/profile?uid=650ab8c16ea8d8449ae3be12"
+          `https://app-edusign-back1.vercel.app/cours/mes-cours-admin?adminUid=${currentUser.id}`
         );
         const data = await response.json();
         if (!data.result) {
-          console.log("erreur de fetch");
-          return;
-        } else {
-          setUser(data.allDataUser);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(
-          "https://app-edusign-back1.vercel.app/cours/mes-cours-admin?adminUid=650ab8c16ea8d8449ae3be12"
-        );
-        const data = await response.json();
-        if (!data.result) {
-          console.log("erreur de fetch");
+          console.log("Erreur de fetch");
           return;
         } else {
           setMyCours(data.allMyCours);
+          console.log("Cours chargés :", data.allMyCours); // Ajout de cette ligne
         }
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
-
-  const handleGenerateQR = (coursId) => {
-    navigation.navigate("QrCodeScreen", { courseId: coursId });
-    console.log('Navigating to QrCodeScreen with courseId:', coursId);
-  }
 
   const formatDateToHourMinute = (dateString) => {
     const date = new Date(dateString);
@@ -55,18 +36,41 @@ const AdminScreen = ({navigation}) => {
     return `${hour}:${minute}`;
   };
 
-  console.log(myCours)
-  
+  const determineCourseColor = (start, end) => {
+    const now = new Date();
+    const courseStart = new Date(start);
+    const courseEnd = new Date(end);
+
+    if (now >= courseStart && now <= courseEnd) {
+      return 'green'; // Le cours est en cours
+    } else {
+      return 'red'; // Le cours n'est pas en cours
+    }
+  };
+
+  const handleGenerateQR = (coursId) => {
+    navigation.navigate("QrCodeScreen", { courseId: coursId });
+    console.log('Navigating to QrCodeScreen with courseId:', coursId);
+  };
+
   const eachCours = myCours.map((cours) => {
-    const { _id, description, end, intervenant, intervenantId, salle, start, students, titre, presents } = cours;
+    const { _id, salle, start, end, titre, presents } = cours;
     const isAppel = presents?.length > 0;
+    const courseColor = determineCourseColor(start, end);
+
+    const handlePress = () => {
+      // Naviguer uniquement si le cours est en cours
+      if (courseColor === 'green') {
+        handleGenerateQR(_id);
+      }
+    };
 
     return (
-      <TouchableOpacity onPress={() => handleGenerateQR(_id)} key={_id}>
-        <View>
-          <Text>{titre}</Text>
-          <Text>Salle : {salle}</Text>
-          <Text>
+      <TouchableOpacity onPress={handlePress} key={_id} disabled={courseColor !== 'green'}>
+        <View style={{ borderColor: courseColor, borderWidth: 2, padding: 10, marginBottom: 10 }}>
+          <Text style={{ color: courseColor }}>{titre}</Text>
+          <Text style={{ color: courseColor }}>Salle : {salle}</Text>
+          <Text style={{ color: courseColor }}>
             {formatDateToHourMinute(start)} {formatDateToHourMinute(end)}
           </Text>
         </View>
@@ -104,7 +108,6 @@ const screenStyles = StyleSheet.create({
     padding: "5%",
     height: "100%",
     width: "100%",
-    // backgroundColor: 'red'
   },
 });
 
