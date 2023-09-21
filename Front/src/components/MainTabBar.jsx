@@ -7,6 +7,9 @@ import StatsScreen from "../screens/StatsScreen";
 import ProfilScreen from "../screens/ProfilScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import SignScreen from "../screens/SignScreen";
+import AdminScreen from "../screens/AdminScreen";
+import QrCodeScreen from "../screens/QrCodeScreen";
+import AdminFormScreen from "../screens/AdminFormScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -57,6 +60,9 @@ const MainTabBar = () => {
             <Tab.Screen name="Calendrier" component={CalendarScreen} />
             <Tab.Screen name="Profil" component={ProfilScreen} />
             <Tab.Screen name="Signature" component={SignScreen} />
+            <Tab.Screen name="AdminScreen" component={AdminScreen} />
+            <Tab.Screen name="QrCodeScreen" component={QrCodeScreen} />
+            <Tab.Screen name="AdminForm" component={AdminFormScreen} />
 
         </Tab.Navigator>
     );
