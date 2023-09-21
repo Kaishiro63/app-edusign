@@ -56,7 +56,7 @@ const AdminScreen = ({navigation}) => {
   };
 
   console.log(myCours)
-  
+
   const eachCours = myCours.map((cours) => {
     const { _id, description, end, intervenant, intervenantId, salle, start, students, titre, presents } = cours;
     const isAppel = presents?.length > 0;
