@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import { useIsFocused } from '@react-navigation/native';
 
 const QRCodeGenerator = ({ route }) => {
   const [inputData, setInputData] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    // Récupérer l'ID passé en paramètre depuis la route
-    const idFromRoute = route.params?.courseId;
-    if (idFromRoute) {
-      setInputData(idFromRoute);
-    } else {
-      setInputData('no id');
+    if (isFocused) {
+      const courseIdFromRoute = route.params?.courseId;
+      if (courseIdFromRoute) {
+        setInputData(courseIdFromRoute);
+      } else {
+        setInputData('no courseId');
+      }
     }
-  }, [route.params?.id]);
-
+  }, [isFocused, route.params?.courseId]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{inputData}</Text>
-
+      <Text>{inputData}</Text>
 
       {inputData ? (
         <QRCode
