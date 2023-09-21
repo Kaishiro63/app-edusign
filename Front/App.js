@@ -23,7 +23,17 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <Route/>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ header: (props) => <CustomHeader {...props} /> }}>
+          <Stack.Screen name="MainTab" component={MainTabBar} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Scan" component={ScannerScreen} />
+          <Stack.Screen name="Sign" component={SignScreen} />
+          <Stack.Screen name="Justifie" component={JustifieScreen} />
+          <Stack.Screen name="SingleCours" component={SingleCoursScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }

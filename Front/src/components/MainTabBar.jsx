@@ -47,11 +47,7 @@ const MainTabBar = () => {
               iconName = "user-circle-o";
               return <FontAwesome name={iconName} size={size} color={color} />;
 
-            } else if (route.name === "Signature") {
-              iconName = "user-circle-o";
-              return <FontAwesome name={iconName} size={size} color={color} />;
-
-            }
+              }
 
           },
           tabBarActiveTintColor: "#e3c022",
@@ -63,25 +59,21 @@ const MainTabBar = () => {
           <Tab.Screen name="Documents" component={DocumentsScreen} />
           <Tab.Screen name="Calendrier" component={CalendarScreen} />
           <Tab.Screen name="Profil" component={ProfilScreen} />
-          <Tab.Screen name="Signature" component={SignScreen} />
-
-
       </Tab.Navigator>
   );
 
-  }else if(currentUser.admin === true){
-    return (
-      <Tab.Navigator>
+    } else if(currentUser.admin === true){
+      return (
+        <Tab.Navigator>
 
-          <Tab.Screen name="AdminScreen" component={AdminScreen} />
-          <Tab.Screen name="QrCodeScreen" component={QrCodeScreen} />
-          <Tab.Screen name="AdminForm" component={AdminFormScreen} />
+            <Tab.Screen name="AdminScreen" component={AdminScreen} />
+            <Tab.Screen name="QrCodeScreen" component={QrCodeScreen} />
+            <Tab.Screen name="AdminForm" component={AdminFormScreen} />
 
-      </Tab.Navigator>
-  );
-  }
+        </Tab.Navigator>
+      );
+    }
 
- 
   }
 
 export default MainTabBar;
