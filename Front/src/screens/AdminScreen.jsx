@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 
-const AdminScreen = () => {
+const AdminScreen = ({navigation}) => {
   const [user, setUser] = useState();
   const [myCours, setMyCours] = useState([]);
 
@@ -43,6 +43,11 @@ const AdminScreen = () => {
     })();
   }, []);
 
+  const handleGenerateQR = (coursId) => {
+    navigation.navigate("QrCodeScreen", { courseId: coursId });
+    console.log('Navigating to QrCodeScreen with courseId:', coursId);
+  }
+
   const formatDateToHourMinute = (dateString) => {
     const date = new Date(dateString);
     const hour = date.getHours().toString().padStart(2, "0");
@@ -51,14 +56,13 @@ const AdminScreen = () => {
   };
 
   console.log(myCours)
-
+  
   const eachCours = myCours.map((cours) => {
-    const { _id, description, end, intervenant, intervenantId, salle, start, students, titre, presents } =
-      cours;
-    console.log('zzz', presents)
-      const isAppel = presents?.length > 0;
+    const { _id, description, end, intervenant, intervenantId, salle, start, students, titre, presents } = cours;
+    const isAppel = presents?.length > 0;
+
     return (
-      <View>
+      <TouchableOpacity onPress={() => handleGenerateQR(_id)} key={_id}>
         <View>
           <Text>{titre}</Text>
           <Text>Salle : {salle}</Text>
@@ -66,8 +70,8 @@ const AdminScreen = () => {
             {formatDateToHourMinute(start)} {formatDateToHourMinute(end)}
           </Text>
         </View>
-       {isAppel && <Text>V</Text>}
-      </View>
+        {isAppel && <Text>V</Text>}
+      </TouchableOpacity>
     );
   });
 
