@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
+
 
 const AdminScreen = ({ navigation }) => {
   const [user, setUser] = useState();
   const [myCours, setMyCours] = useState([]);
+  const currentUser = useSelector((state) => state.user.value);
+
 
   useEffect(() => {
     (async () => {
       try {
         const response = await fetch(
-          "https://app-edusign-back1.vercel.app/cours/mes-cours-admin?adminUid=650ab8c16ea8d8449ae3be12"
+          `https://app-edusign-back1.vercel.app/cours/mes-cours-admin?adminUid=${currentUser.id}`
         );
         const data = await response.json();
         if (!data.result) {
