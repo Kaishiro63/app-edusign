@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import Swiper from "react-native-web-swiper";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useDispatch } from "react-redux";
 
 function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -24,6 +25,7 @@ function LoginScreen({ navigation }) {
             })
             let data = await response.json()
             console.log(data)
+            useDispatch(login())
             navigation.navigate('TabNavigator');
         }
         catch (e) {

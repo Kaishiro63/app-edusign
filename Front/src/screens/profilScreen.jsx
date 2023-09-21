@@ -28,7 +28,6 @@ const ProfilScreen = () => {
 
   useEffect(() => {
     const handleGetUser = async () => {
-      console.log("test");
       try {
         const response = await fetch(
           "https://app-edusign-back1.vercel.app/users/profile?uid=650ab8c16ea8d8449ae3be12"
@@ -61,7 +60,7 @@ const ProfilScreen = () => {
       <TouchableOpacity onPress={pickImage}>
         <Image source={require('../../assets/userface.png')} resizeMode="contain" style={screenStyles.userFace}></Image>
       </TouchableOpacity>
-      <Text style={screenStyles.title}>{user.prenom} {user.nom?.toUpperCase()}</Text>
+      <Text style={screenStyles.title}>{user.prenom} <Text style={{textTransform: "uppercase"}}>{user.nom}</Text></Text>
 
       <View style={screenStyles.infosContainer}>
 

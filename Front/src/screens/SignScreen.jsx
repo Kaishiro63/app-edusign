@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import SignatureScreen from 'react-native-signature-canvas';
 
 const SignScreen = ({ navigation }) => {
+  const [user, setUser] = useState([]);
   const ref = useRef();
   const [signaturePresent, setSignaturePresent] = useState(false);
 
@@ -23,11 +24,32 @@ const SignScreen = ({ navigation }) => {
 
   const style = `.m-signature-pad--footer {display: none; margin: 0px;}`;
 
+  useEffect(() => {
+    const handleGetUser = async () => {
+      console.log("test");
+      try {
+        const response = await fetch(
+          "https://app-edusign-back1.vercel.app/users/profile?uid=650ab8c16ea8d8449ae3be12"
+        );
+        const data = await response.json();
+        if (!data.result) {
+          console.log("erreur de fetch");
+          return;
+        } else {
+          setUser(data.allDataUser);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleGetUser();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Signez ci-dessous</Text>
-        <Text style={styles.description}>Veuillez fournir votre signature</Text>
+        <Text style={styles.title}>Émargement</Text>
+        <Text style={styles.description}>Veuillez signer dans le cadre</Text>
       </View>
 
       <SignatureScreen
@@ -38,13 +60,13 @@ const SignScreen = ({ navigation }) => {
 
       <View style={styles.flex}>
         <TouchableOpacity style={styles.btnDelete} onPress={() => handleClear()}>
-          <Text style={styles.btnText}>Effacer</Text>
+          <Text style={styles.btnTextDelete}>Effacer</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.flex}>
-        <Text style={styles.title}>Vous signez en tant que monsieur XXX</Text>
-        <Text style={styles.description}>Adresse mail de la personne</Text>
+        <Text style={styles.titulaire}>Je signe en tant que <Text style={{fontWeight: 'bold', textTransform: "uppercase"}}>{user.prenom} {user.nom}</Text></Text>
+        <Text style={styles.titulaire}>{user.email}</Text>
       </View>
 
       <View style={styles.flex}>
@@ -74,39 +96,41 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 10,
     marginTop: 50
   },
   description: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "bold",
     color: '#555',
   },
-  btnDelete: {
-    width: "40%",
-    borderRadius: 25,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-    marginBottom: 20,
-    backgroundColor: "#DC143C",
+  titulaire: {
+    fontSize: 15,
+    maxWidth: 230,
+    textAlign: "center",
+    marginBottom: 5
   },
   btn: {
     width: "100%",
-    borderRadius: 25,
+    borderRadius: 5,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 110,
     marginBottom: 20,
     backgroundColor: "#F7BA09",
   },
   btnText: {
-      color: "#FFF",
+      color: "#000",
       fontWeight: "bold",
   },
+  btnTextDelete: {
+    marginTop: 15,
+    marginBottom: 25,
+    color: "#0080ff",
+},
 });
 
 export default SignScreen;

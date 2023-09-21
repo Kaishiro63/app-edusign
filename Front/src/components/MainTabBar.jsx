@@ -52,7 +52,7 @@ const MainTabBar = () => {
             },
             tabBarActiveTintColor: "#e3c022",
             tabBarInactiveTintColor: "#8a8a8a",
-            headerShown: true,
+            headerShown: false,
           })}>
             <Tab.Screen name="Accueil" component={HomeScreen} />
             <Tab.Screen name="Statistiques" component={StatsScreen} />

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Onglets from '../components/Onglets';
 const HomeScreen = () => {
     const [cards, setCards] = useState([1, 2, 3]); // Initial array of cards
+    const [user, setUser] = useState([]);
 
     const removeCard = (index) => {
         const updatedCards = [...cards];
@@ -11,9 +12,30 @@ const HomeScreen = () => {
         setCards(updatedCards); // Update the state to reflect the removed card
     };
 
+    useEffect(() => {
+        const handleGetUser = async () => {
+          console.log("test");
+          try {
+            const response = await fetch(
+              "https://app-edusign-back1.vercel.app/users/profile?uid=650ab8c16ea8d8449ae3be12"
+            );
+            const data = await response.json();
+            if (!data.result) {
+              console.log("erreur de fetch");
+              return;
+            } else {
+              setUser(data.allDataUser);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        handleGetUser();
+      }, []);
+
     return (
         <View style={screenStyles.container}>
-            <Text style={screenStyles.title}>Bonjour X</Text>
+            <Text style={screenStyles.title}>Bonjour {user.prenom}</Text>
 
             <View>
                 <ScrollView
@@ -38,7 +60,7 @@ const HomeScreen = () => {
                     ))}
                 </ScrollView>
                 <View style={{display: 'flex', justifyContent: 'flex-start'}}>
-                    <LinearGradient colors={['#F6C444', '#FCECB8']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={screenStyles.buttonContainer}>
+                    <LinearGradient colors={['#FAE18F', '#FAE18F']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={screenStyles.buttonContainer}>
                         <TouchableOpacity>
                             <Text style={screenStyles.buttonText}>🏠 Justifier une absence</Text>
                         </TouchableOpacity>
@@ -56,7 +78,7 @@ const screenStyles = StyleSheet.create({
         backgroundColor: 'white',
         paddingBottom: 120,
         paddingHorizontal: 30,
-
+        paddingTop: 40
     },
     title: {
         fontSize: 28,

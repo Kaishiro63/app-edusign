@@ -2,8 +2,12 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from "reac
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from "../colors";
 
-const StatsScreen = ({ totalSessions = 10, presences = 8, absencesJustifiees = 1, absences = 1 }) => {
+const StatsScreen = ({ totalSessions = 10, presences = 8, absencesJustifiees = 1, absences = 1, navigation }) => {
     const tauxDePresence = (presences / totalSessions) * 100;
+
+    const handleJustifie = () => {
+        navigation.navigate('Justifie');
+      };
 
     return (
         <View style={styles.container}>
@@ -56,7 +60,7 @@ const StatsScreen = ({ totalSessions = 10, presences = 8, absencesJustifiees = 1
                 colors={[Colors.lightGray, Colors.primaryGray]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                style={[styles.card, styles.fullWidthCard]}
+                style={styles.fullWidthCard}
             >
                 <Text style={styles.textCard}>Taux de présence</Text>
                 <Text style={styles.chiffreCard}>{tauxDePresence.toFixed(2)}%</Text>
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 20,
+        paddingHorizontal: 20,
     },
     flex: {
         display: "flex",
@@ -105,6 +109,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     card: {
+        display: "flex",
+        justifyContent: "space-around",
         borderRadius: 10,
         padding: 15,
         height: 100,
@@ -114,12 +120,15 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     chiffreCard: {
-        paddingTop: 10,
         fontSize: 32,
         fontWeight: "bold"
     },
     fullWidthCard: {
         width: '100%',
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        height: 80,
     },
     textInfo: {
         fontSize: 14,
@@ -128,12 +137,12 @@ const styles = StyleSheet.create({
     },
     btn: {
         width: "100%",
-        borderRadius: 10,
-        height: 50,
+        borderRadius: 5,
+        height: 40,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 25,
-        marginBottom: 20,
+        marginTop: 20,
+        marginBottom: 25,
         backgroundColor: "#F7BA09",
     },
     btnText: {

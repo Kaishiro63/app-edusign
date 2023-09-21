@@ -8,6 +8,8 @@ import HomeScreen from "./src/screens/HomeScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import user from "./reducers/user";
 import ScannerScreen from "./src/screens/ScannerScreen";
+import CustomHeader from "./src/components/CustomHeader";
+import JustifieScreen from "./src/screens/JustifieScreen";
 
 const store = configureStore({
   reducer: { user },
@@ -19,11 +21,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ header: (props) => <CustomHeader {...props} /> }}>
           <Stack.Screen name="MainTab" component={MainTabBar} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Scan" component={ScannerScreen} />
+          <Stack.Screen name="Justifie" component={JustifieScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
