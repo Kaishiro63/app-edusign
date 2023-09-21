@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from "../colors";
 
@@ -72,7 +72,7 @@ const StatsScreen = ({ totalSessions = 10, presences = 8, absencesJustifiees = 1
                 style={styles.btn}
                 onPress={() => handleJustifie()}
                 >
-                <Text style={styles.btnText}>Justifier une absence</Text>
+                    <Text style={styles.btnText}>Justifier une absence</Text>
                 </TouchableOpacity>
             </View>
             <Text style={styles.secondaryTitle}>Sessions manquées</Text>

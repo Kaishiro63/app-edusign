@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 
 const EmargementScreen = ({ navigation }) => {
   const [cours, setCours] = useState([]);
@@ -26,7 +26,19 @@ const EmargementScreen = ({ navigation }) => {
     handleGetAllCours();
   }, []);
 
-  console.log(cours);
+  const today = new Date();
+  const todayCourses = [];
+  const pastCourses = [];
+
+  cours.forEach((cours) => {
+    const courseDate = new Date(cours.start);
+
+    if (courseDate.toDateString() === today.toDateString()) {
+      todayCourses.push(cours);
+    } else if (courseDate < today) {
+      pastCourses.push(cours);
+    }
+  });
 
   const formatDateToHourMinute = (dateString) => {
     const date = new Date(dateString);
@@ -39,25 +51,45 @@ const EmargementScreen = ({ navigation }) => {
     navigation.navigate('SingleCours', cours);
   };
 
-  const allCourses = cours.map((cours) => {
-      return (
-        <TouchableOpacity key={cours.id} style={styles.container} onPress={() => handleCoursePress(cours)}>
-          <Text style={styles.book}>📖</Text>
-          <View style={styles.infoContainer}>
-            <Text style={styles.title}>{cours.titre}</Text>
-            <View style={styles.timeContainer}>
-              <Text style={styles.hourStart}>{formatDateToHourMinute(cours.start)} - <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text></Text>
-            </View>
+  const todayCoursesJSX = todayCourses.map((cours) => {
+    return (
+      <TouchableOpacity key={cours.id} style={styles.container} onPress={() => handleCoursePress(cours)}>
+        <Text style={styles.book}>📖</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.title}>{cours.titre}</Text>
+          <View style={styles.timeContainer}>
+            <Text style={styles.hourStart}>{formatDateToHourMinute(cours.start)} - <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text></Text>
           </View>
-        </TouchableOpacity>
-      );
-  })
+        </View>
+      </TouchableOpacity>
+    );
+  });
+
+  const pastCoursesJSX = pastCourses.map((cours) => {
+    return (
+      <TouchableOpacity key={cours.id} style={styles.container} onPress={() => handleCoursePress(cours)}>
+        <Text style={styles.book}>📖</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.title}>{cours.titre}</Text>
+          <View style={styles.timeContainer}>
+            <Text style={styles.hourStart}>{formatDateToHourMinute(cours.start)} - <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text></Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  });
 
   return (
-    <View style={styles.col}>
-      {allCourses}
-    </View>
-  )
+    <ScrollView style={{flex: 1}}>
+      <View style={styles.col}>
+        <Text style={styles.sectionTitle}>Cours d'aujourd'hui</Text>
+        {todayCoursesJSX}
+
+        <Text style={styles.sectionTitle}>Cours passés</Text>
+        {pastCoursesJSX}
+      </View>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -99,6 +131,12 @@ const styles = StyleSheet.create({
   hourEnd: {
     color: '#AAAAAA',
   },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 5
+  }
 });
 
 export default EmargementScreen;
