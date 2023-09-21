@@ -28,7 +28,7 @@ function LoginScreen({ navigation }) {
             let data = await response.json()
             dispatch(login({id : data.dataUser.id, admin : data.dataUser.admin }))
             console.log('yesssss', currentUser)
-            // navigation.navigate('TabNavigator');
+            navigation.navigate('MainTab');
         }
         catch (e) {
             console.log(e)

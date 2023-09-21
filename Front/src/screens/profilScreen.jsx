@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../reducers/user";
 
-const ProfilScreen = () => {
+const ProfilScreen = ({navigation}) => {
   const dispatch = useDispatch()
   const [user, setUser] = useState([]);
   const [image, setImage] = useState(null);
@@ -32,7 +32,7 @@ const ProfilScreen = () => {
     const handleGetUser = async () => {
       try {
         const response = await fetch(
-          "https://app-edusign-back1.vercel.app/users/profile?uid=650ab8c16ea8d8449ae3be12"
+          `https://app-edusign-back1.vercel.app/users/profile?uid=${currentUser.id}`
         );
         const data = await response.json();
         if (!data.result) {
@@ -50,6 +50,7 @@ const ProfilScreen = () => {
 
   handleLogout = () => {
     dispatch(logout())
+    navigation.navigate('Login')
   };
 
   handleChangePassword = () => {

@@ -20,7 +20,7 @@ const HomeScreen = () => {
           console.log("test");
           try {
             const response = await fetch(
-              "https://app-edusign-back1.vercel.app/users/profile?uid=650ab8c16ea8d8449ae3be12"
+              `https://app-edusign-back1.vercel.app/users/profile?uid=${currentUser.id}`
             );
             const data = await response.json();
             if (!data.result) {
