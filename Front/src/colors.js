@@ -9,4 +9,6 @@ export const Colors = {
     lightOrange: '#f0c5b4',
     primaryRed: '#df7651',
     lightRed: '#efc4b4',
+    primaryGray: '#C6C6C6',
+    lightGray: '#E2E2E2',
   };
