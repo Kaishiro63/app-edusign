@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Onglets from '../components/Onglets';
+import { useSelector } from "react-redux";
+
 const HomeScreen = () => {
+    const currentUser = useSelector((state) => state.user.value);
     const [cards, setCards] = useState([1, 2, 3]); // Initial array of cards
     const [user, setUser] = useState([]);
 

@@ -10,10 +10,11 @@ import SignScreen from "../screens/SignScreen";
 import AdminScreen from "../screens/AdminScreen";
 import QrCodeScreen from "../screens/QrCodeScreen";
 import AdminFormScreen from "../screens/AdminFormScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 const Tab = createBottomTabNavigator();
-
 const MainTabBar = () => {
+
     return (
         <Tab.Navigator
         screenOptions={({ route }) => ({
