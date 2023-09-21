@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Camera } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from "react-redux";
+
 
 const ScannerScreen = () => {
+
+    const currentUser = useSelector((state) => state.user.value);
     const navigation = useNavigation();
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
@@ -20,9 +24,11 @@ const ScannerScreen = () => {
     }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
-        alert(`Type de code : ${type}\nDonnées : ${data}`);
+      setScanned(true);
+      const userId = currentUser ? currentUser.id : 'Unknown user';
+      alert(`Type de code : ${type}\nDonnées : ${data}\nUtilisateur : ${userId}`);
     };
+    
 
     if (hasPermission === null) {
         return <View />;
@@ -31,6 +37,23 @@ const ScannerScreen = () => {
     if (hasPermission === false) {
         return <Text>No access to camera</Text>;
     }
+
+    const sendPostRequest = async (data) => {
+      try {
+        const response = await fetch('https://app-edusign-back1.vercel.app/present', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data }),
+        });
+  
+        const responseData = await response.json();
+        console.log('Réponse de la requête POST :', responseData);
+      } catch (error) {
+        console.error('Erreur lors de la requête POST :', error);
+      }
+    };
 
   return (
     <View style={{ flex: 1 }}>
