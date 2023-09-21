@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const EmargementScreen = () => {
+const EmargementScreen = ({ navigation }) => {
   const [cours, setCours] = useState([]);
 
   useEffect(() => {
@@ -26,6 +26,8 @@ const EmargementScreen = () => {
     handleGetAllCours();
   }, []);
 
+  console.log(cours);
+
   const formatDateToHourMinute = (dateString) => {
     const date = new Date(dateString);
     const hour = date.getHours().toString().padStart(2, "0");
@@ -33,22 +35,70 @@ const EmargementScreen = () => {
     return `${hour}:${minute}`;
   };
 
+  const handleCoursePress = (cours) => {
+    navigation.navigate('SingleCours', cours);
+  };
+
   const allCourses = cours.map((cours) => {
       return (
-        <TouchableOpacity>
-          <Text>{cours.titre}</Text>
-          <Text>{formatDateToHourMinute(cours.start)}</Text>
-          <Text>{formatDateToHourMinute(cours.end)}</Text>
+        <TouchableOpacity key={cours.id} style={styles.container} onPress={() => handleCoursePress(cours)}>
+          <Text style={styles.book}>📖</Text>
+          <View style={styles.infoContainer}>
+            <Text style={styles.title}>{cours.titre}</Text>
+            <View style={styles.timeContainer}>
+              <Text style={styles.hourStart}>{formatDateToHourMinute(cours.start)} - <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text></Text>
+            </View>
+          </View>
         </TouchableOpacity>
       );
   })
 
-
   return (
-    <View>
-      <Text>{allCourses}</Text>
+    <View style={styles.col}>
+      {allCourses}
     </View>
   )
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    backgroundColor: "#FFF"
+  },
+  col: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#FFF",
+  },
+  book: {
+    fontSize: 28,
+    backgroundColor: "#F0F0F0",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    marginRight: 10
+  },
+  infoContainer: {
+    flex: 1,
+  },
+  timeContainer: {
+    flexDirection: 'row',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  hourStart: {
+    marginRight: 10,
+    color: '#AAAAAA',
+  },
+  hourEnd: {
+    color: '#AAAAAA',
+  },
+});
 
 export default EmargementScreen;

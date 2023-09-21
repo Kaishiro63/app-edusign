@@ -50,6 +50,9 @@ const SignScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text>Retour</Text>
+        </TouchableOpacity>
         <Text style={styles.title}>Émargement</Text>
         <Text style={styles.description}>Veuillez signer dans le cadre</Text>
       </View>

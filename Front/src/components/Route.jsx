@@ -8,6 +8,8 @@ import LoginScreen from "../screens/LoginScreen";
 import ScannerScreen from "../screens/ScannerScreen";
 import CustomHeader from "../components/CustomHeader";
 import JustifieScreen from "../screens/JustifieScreen";
+import SignScreen from "../screens/SignScreen";
+import SingleCoursScreen from "../screens/SingleCoursScreen";
 import { useSelector } from "react-redux";
 
 const Stack = createNativeStackNavigator();
@@ -36,7 +38,9 @@ export const Route = () => {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Scan" component={ScannerScreen} />
+      <Stack.Screen name="Sign" component={SignScreen} />
       <Stack.Screen name="Justifie" component={JustifieScreen} />
+      <Stack.Screen name="SingleCours" component={SingleCoursScreen} />
     </Stack.Navigator>
   </NavigationContainer>
   );
