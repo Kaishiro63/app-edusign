@@ -62,9 +62,10 @@ const MainTabBar = () => {
       </Tab.Navigator>
   );
 
-    } else if(currentUser.admin === true){
-      return (
-        <Tab.Navigator>
+  }else if(currentUser.admin === true){
+    return (
+      <Tab.Navigator
+      screenOptions={{headerShown: false,}}>
 
             <Tab.Screen name="AdminScreen" component={AdminScreen} />
             <Tab.Screen name="QrCodeScreen" component={QrCodeScreen} />

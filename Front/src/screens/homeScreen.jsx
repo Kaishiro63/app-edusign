@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import Onglets from '../components/Onglets';
 import { useSelector } from "react-redux";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     const currentUser = useSelector((state) => state.user.value);
     const [cards, setCards] = useState([1, 2, 3]); // Initial array of cards
     const [user, setUser] = useState([]);
@@ -14,6 +14,10 @@ const HomeScreen = () => {
         updatedCards.splice(index, 1); // Remove the card at the specified index
         setCards(updatedCards); // Update the state to reflect the removed card
     };
+
+    const handleJustifie = () => {
+        navigation.navigate('Justifie');
+      };
 
     useEffect(() => {
         const handleGetUser = async () => {
@@ -64,8 +68,8 @@ const HomeScreen = () => {
                 </ScrollView>
                 <View style={{display: 'flex', justifyContent: 'flex-start'}}>
                     <LinearGradient colors={['#FAE18F', '#FAE18F']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={screenStyles.buttonContainer}>
-                        <TouchableOpacity>
-                            <Text style={screenStyles.buttonText}>🏠 Justifier une absence</Text>
+                        <TouchableOpacity style={screenStyles.buttonText} onPress={() => handleJustifie()}>
+                            <Text>🏠 Justifier une absence</Text>
                         </TouchableOpacity>
                     </LinearGradient>
                 </View>
