@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import Swiper from "react-native-web-swiper";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../reducers/user";
 
 function LoginScreen({ navigation }) {
+    const currentUser = useSelector((state) => state.user.value);
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +17,6 @@ function LoginScreen({ navigation }) {
     };
 
     const handleSubmit = async () => {
-        console.log('test')
         try {
             const response = await fetch('https://app-edusign-back1.vercel.app/users/login', {
                 method: 'POST',
@@ -24,13 +26,14 @@ function LoginScreen({ navigation }) {
                 body: JSON.stringify({email, password})
             })
             let data = await response.json()
-            console.log(data)
-            useDispatch(login())
-            navigation.navigate('TabNavigator');
+            dispatch(login({id : data.dataUser.id, admin : data.dataUser.admin }))
+            console.log('yesssss', currentUser)
+            // navigation.navigate('TabNavigator');
         }
         catch (e) {
-        if (e instanceof Error)
-            setError(e.message)
+            console.log(e)
+        // if (e instanceof Error)
+        //     setError(e.message)
         }
     };
 

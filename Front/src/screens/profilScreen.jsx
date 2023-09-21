@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from 'expo-image-picker';
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../reducers/user";
 
 const ProfilScreen = () => {
+  const dispatch = useDispatch()
   const [user, setUser] = useState([]);
   const [image, setImage] = useState(null);
 
+  const currentUser = useSelector((state) => state.user.value);
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -47,7 +49,7 @@ const ProfilScreen = () => {
   }, []);
 
   handleLogout = () => {
-    console.log("logout");
+    dispatch(logout())
   };
 
   handleChangePassword = () => {
