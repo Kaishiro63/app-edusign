@@ -22,14 +22,17 @@ const ScannerScreen = () => {
   }, []);
 
   const sendPostRequest = async (qrCodeIdCrypted, timeStampCrypted, userId) => {
+
     const requestData = {
       encryptedId: qrCodeIdCrypted,
       encryptedExpirationDate: timeStampCrypted,
       userId: userId,
     };
 
+    console.log('Requête POST envoyée :', requestData)
+
     try {
-      const response = await fetch('https://app-edusign-back1.vercel.app/cours/present', {
+      const response = await fetch('https://app-edusign-back1.vercel.app/cours/qr-code-scan', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

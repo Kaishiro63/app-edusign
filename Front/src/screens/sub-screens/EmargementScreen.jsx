@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { useSelector } from "react-redux";
+
 
 const EmargementScreen = ({ navigation }) => {
   const [cours, setCours] = useState([]);
+  const currentUser = useSelector((state) => state.user.value);
+
 
   useEffect(() => {
     const handleGetAllCours = async () => {
       console.log("test");
       try {
         const response = await fetch(
-          "https://app-edusign-back1.vercel.app/cours/mes-cours-students?userUid=650ab94c6ea8d8449ae3be18"
+          `https://app-edusign-back1.vercel.app/cours/mes-cours-students?userUid=${currentUser.id}`
         );
         const data = await response.json();
         if (!data.result) {
