@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Button,
   Platform,
   ScrollView,
   TouchableOpacity,
@@ -13,7 +12,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useSelector } from "react-redux";
 
-const AdminFormScreen = () => {
+const AdminFormScreen = ({navigation}) => {
   const currentUser = useSelector((state) => state.user.value);
   const [title, setTitle] = useState("");
   const [salle, setSalle] = useState("");
@@ -95,19 +94,29 @@ const AdminFormScreen = () => {
         },
         body: JSON.stringify(body),
       });
-      const data = response.json();
+      const data = await response.json();
       console.log(data);
+
+      setTitle("");
+      setSalle("");
+      setIntervenant("");
+      setDescritpion("");
+      setDateStart(new Date());
+      setDateEnd(new Date());
+      setselectedClasse(null);
+
+      navigation.navigate('Mes cours', { refresh: true });
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Créer un cours</Text>
       <View style={styles.form}>
         <View style={styles.inputContainerDate}>
-          <Text style={styles.titleDate}>heure de debut : {dateStart.toDateString()}</Text>
+          <Text style={styles.titleDate}>Séléctionnez l'heure de début du cours :</Text>
           {showDatePicker && (
             <DateTimePicker
               value={dateStart}
@@ -118,7 +127,7 @@ const AdminFormScreen = () => {
           )}
         </View>
         <View style={styles.inputContainerDate}>
-          <Text style={styles.titleDate}>heure de fin : {dateEnd.toLocaleTimeString()}</Text>
+          <Text style={styles.titleDate}>Séléctionnez l'heure de fin du cours :</Text>
           {showStartTimePicker && (
             <DateTimePicker
               value={dateEnd}
@@ -168,8 +177,8 @@ const AdminFormScreen = () => {
           search={false}
         />
       </View>
-      <TouchableOpacity onPress={() => handleCreateCours()}>
-        <Text>Creation</Text>
+      <TouchableOpacity onPress={() => handleCreateCours()} style={styles.button}>
+        <Text style={styles.buttonText}>Créer le cours</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -177,52 +186,61 @@ const AdminFormScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    backgroundColor: "#FFF",
+    padding: 20,
   },
   title: {
-    marginLeft: 10,
-    marginTop: 10,
+    fontSize: 32,
+    fontWeight: "bold",
     marginBottom: 20,
-    fontSize: 28,
-    fontWeight: "bold",
-  },
-  text: {
-    marginTop: 10,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  titleDate: {
-    marginBottom: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    width: "90%",
-  },
-  inputContainerDate: {
-    flexDirection: "column",
-    alignItems: "center",
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    width: "90%",
-    padding: 10,
-  },
-  input: {
-    padding: 10,
+    color: "#333",
   },
   form: {
+    backgroundColor: "#FFF",
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  inputContainerDate: {
+    marginBottom: 20,
     width: "100%",
-    display: "flex",
-    flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center"
+  },
+  titleDate: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: "#333",
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: "#F9F9F9",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#F7BA09",
+    borderRadius: 5,
+    paddingVertical: 15,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  buttonText: {
+    color: "#000",
+    fontSize: 18,
+    fontWeight: "bold"
   },
 });
 

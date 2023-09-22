@@ -12,6 +12,7 @@ import SignScreen from "../screens/SignScreen";
 import SingleCoursScreen from "../screens/SingleCoursScreen";
 import { useSelector } from "react-redux";
 import ChangePassword from "../screens/sub-screens/ChangePassword";
+import QrCodeScreen from "../screens/QrCodeScreen"
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,7 @@ export const Route = () => {
       <Stack.Screen name="Justifie" component={JustifieScreen} />
       <Stack.Screen name="SingleCours" component={SingleCoursScreen} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      <Stack.Screen name="QrCodeScreen" component={QrCodeScreen} />
 
     </Stack.Navigator>
   </NavigationContainer>

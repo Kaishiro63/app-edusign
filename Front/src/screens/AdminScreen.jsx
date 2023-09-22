@@ -1,13 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
+import { useIsFocused } from '@react-navigation/native';
 
-
-const AdminScreen = ({ navigation }) => {
+const AdminScreen = ({ navigation, route }) => {
   const [user, setUser] = useState();
   const [myCours, setMyCours] = useState([]);
   const currentUser = useSelector((state) => state.user.value);
+  const isFocused = useIsFocused();
 
+  console.log(isFocused);
+
+  const compareCours = (coursA, coursB) => {
+    const colorA = determineCourseColor(coursA.start, coursA.end);
+    const colorB = determineCourseColor(coursB.start, coursB.end);
+
+    if (colorA === 'green' && colorB === 'red') {
+      return -1;
+    } else if (colorA === 'red' && colorB === 'green') {
+      return 1;
+    } else {
+      const startA = new Date(coursA.start);
+      const startB = new Date(coursB.start);
+      return startA - startB;
+    }
+  };
+
+  // const refreshData = () => {
+  //   console.log('La page a été actualisée.');
+  // };
+
+  // useEffect(() => {
+  //   if (route.params && route.params.refresh) {
+  //     refreshData();
+  //   }
+  // }, []);
 
   useEffect(() => {
     (async () => {
@@ -21,12 +48,33 @@ const AdminScreen = ({ navigation }) => {
           return;
         } else {
           setMyCours(data.allMyCours);
-          console.log("Cours chargés :", data.allMyCours); // Ajout de cette ligne
+          console.log("Cours chargés :", data.allMyCours);
         }
       } catch (error) {
         console.log(error);
       }
     })();
+  }, [isFocused]);
+
+  useEffect(() => {
+    const handleGetUser = async () => {
+      console.log("test");
+      try {
+        const response = await fetch(
+          `https://app-edusign-back1.vercel.app/users/profile?uid=${currentUser.id}`
+        );
+        const data = await response.json();
+        if (!data.result) {
+          console.log("erreur de fetch");
+          return;
+        } else {
+          setUser(data.allDataUser);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleGetUser();
   }, []);
 
   const formatDateToHourMinute = (dateString) => {
@@ -42,9 +90,9 @@ const AdminScreen = ({ navigation }) => {
     const courseEnd = new Date(end);
 
     if (now >= courseStart && now <= courseEnd) {
-      return 'green'; // Le cours est en cours
+      return 'green';
     } else {
-      return 'red'; // Le cours n'est pas en cours
+      return 'red';
     }
   };
 
@@ -53,28 +101,28 @@ const AdminScreen = ({ navigation }) => {
     console.log('Navigating to QrCodeScreen with courseId:', coursId);
   };
 
-  const eachCours = myCours.map((cours) => {
+  const sortedCours = [...myCours].sort(compareCours);
+
+  const eachCours = sortedCours.map((cours) => {
     const { _id, salle, start, end, titre, presents } = cours;
-    const isAppel = presents?.length > 0;
     const courseColor = determineCourseColor(start, end);
 
     const handlePress = () => {
-      // Naviguer uniquement si le cours est en cours
       if (courseColor === 'green') {
         handleGenerateQR(_id);
       }
     };
 
     return (
-      <TouchableOpacity onPress={handlePress} key={_id} disabled={courseColor !== 'green'}>
-        <View style={{ borderColor: courseColor, borderWidth: 2, padding: 10, marginBottom: 10 }}>
-          <Text style={{ color: courseColor }}>{titre}</Text>
-          <Text style={{ color: courseColor }}>Salle : {salle}</Text>
-          <Text style={{ color: courseColor }}>
-            {formatDateToHourMinute(start)} {formatDateToHourMinute(end)}
+      <TouchableOpacity onPress={handlePress} key={_id} disabled={courseColor !== 'green'} style={screenStyles.containerCours}>
+      <Text style={screenStyles.book}>📖</Text>
+        <View style={screenStyles.infoContainer}>
+          <Text style={{ color: courseColor, ...screenStyles.secondTitle }}>{cours.secondTitle || titre}</Text>
+          <Text style={{ color: courseColor, ...screenStyles.hourStart }}>Salle : {salle}</Text>
+          <Text style={{ color: courseColor, ...screenStyles.hourStart }}>
+            {formatDateToHourMinute(start)} - {formatDateToHourMinute(end)}
           </Text>
         </View>
-        {isAppel && <Text>V</Text>}
       </TouchableOpacity>
     );
   });
@@ -92,11 +140,44 @@ const screenStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    display: "flex",
-    justifyContent: "center",
+    padding: 20,
+    paddingTop: 40
+  },
+  containerCours: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    backgroundColor: "#FFF"
+  },
+  book: {
+    fontSize: 28,
+    backgroundColor: "#F0F0F0",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    marginRight: 10
+  },
+  infoContainer: {
+    flex: 1,
+  },
+  timeContainer: {
+    flexDirection: 'row',
+  },
+  secondTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  hourStart: {
+    marginRight: 10,
+    color: '#AAAAAA',
+  },
+  hourEnd: {
+    color: '#AAAAAA',
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
   },
   text: {
