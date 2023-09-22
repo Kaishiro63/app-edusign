@@ -5,6 +5,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 const QRCodeGenerator = ({ route, navigation }) => {
   const [inputData, setInputData] = useState(null);
+  const [coursDetails, setCoursDetails] = useState(null);
   const coursId = route.params?.coursId;
   const isFocused = useIsFocused();
 
@@ -27,6 +28,23 @@ const QRCodeGenerator = ({ route, navigation }) => {
     }
   };
 
+  const fetchCourse = async () => {
+    try{
+      const response = await fetch(`https://app-edusign-back1.vercel.app/cours/cours-details?coursUid=${coursId}`
+      );
+      if(response.status !== 200) throw new Error("Erreur de fetch");
+      const data = await response.json();
+      if (!data.result) {
+        console.log("Erreur de fetch");
+        return;
+      } else {
+        setCoursDetails(data);
+      }
+    }catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isFocused) {
       fetchData();
@@ -34,7 +52,8 @@ const QRCodeGenerator = ({ route, navigation }) => {
       // Rafraîchissement toutes les 5 secondes
       const intervalId = setInterval(() => {
         fetchData();
-      }, 3000);
+        fetchCourse();
+      }, 1000);
 
       return () => {
         // Nettoyer l'intervalle lorsque le composant est désassemblé ou lorsque l'écran perd le focus
@@ -43,8 +62,9 @@ const QRCodeGenerator = ({ route, navigation }) => {
     }
   }, [isFocused]);
 
-  if(!inputData) return null;
+  if(!inputData || !coursDetails) return null; 
 
+  console.log(coursDetails.coursDetails.presents?.length)
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -63,7 +83,7 @@ const QRCodeGenerator = ({ route, navigation }) => {
             key={inputData.QrCodeId}
           />
         ) : null}
-        <Text style={styles.description}>{inputData.presents?.length}/{inputData.students?.length}</Text>
+        <Text style={styles.description}>{coursDetails.coursDetails.presents?.length}/{coursDetails.coursDetails.students?.length}</Text>
       </View>
     </View>
   );
