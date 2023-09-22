@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Entypo from "react-native-vector-icons/Entypo";
 import HomeScreen from "../screens/HomeScreen";
 import DocumentsScreen from "../screens/DocumentsScreen";
 import StatsScreen from "../screens/StatsScreen";
@@ -48,7 +49,7 @@ const MainTabBar = () => {
               iconName = "user-circle-o";
               return <FontAwesome name={iconName} size={size} color={color} />;
 
-              }
+            }
 
           },
           tabBarActiveTintColor: "#e3c022",
@@ -66,11 +67,35 @@ const MainTabBar = () => {
   }else if(currentUser.admin === true){
     return (
       <Tab.Navigator
-      screenOptions={{headerShown: false,}}>
+      screenOptions={({ route }) => ({
+          tabBarStyle: {
+              paddingTop: 5,
+          },
+          tabBarIcon: ({ color, size }) => {
+            let iconName = "";
 
-            <Tab.Screen name="AdminScreen" component={AdminScreen} />
-            <Tab.Screen name="QrCodeScreen" component={QrCodeScreen} />
-            <Tab.Screen name="AdminForm" component={AdminFormScreen} />
+            if (route.name === "Mes cours") {
+              iconName = "book";
+              return <FontAwesome name={iconName} size={size} color={color} />;
+
+            } else if (route.name === "Ajouter un cours") {
+              iconName = "add-to-list";
+              return <Entypo name={iconName} size={size} color={color} />;
+
+            }else if (route.name === "Profil") {
+              iconName = "user-circle-o";
+              return <FontAwesome name={iconName} size={size} color={color} />;
+
+            }
+          },
+          tabBarActiveTintColor: "#e3c022",
+          tabBarInactiveTintColor: "#8a8a8a",
+          headerShown: false,
+        })}>
+
+            <Tab.Screen name="Mes cours" component={AdminScreen} />
+            <Tab.Screen name="Ajouter un cours" component={AdminFormScreen} />
+            <Tab.Screen name="Profil" component={ProfilScreen} />
 
         </Tab.Navigator>
       );

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useIsFocused } from '@react-navigation/native';
 
-const QRCodeGenerator = ({ route }) => {
+const QRCodeGenerator = ({ route, navigation }) => {
   const [inputData, setInputData] = useState(null);
   const coursId = route.params?.coursId;
   const isFocused = useIsFocused();
@@ -46,21 +46,54 @@ const QRCodeGenerator = ({ route }) => {
   if(!inputData) return null;
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{inputData.QrCodeId}</Text>
-      <Text>{inputData.presents?.length}/{inputData.students?.length}</Text>
-
-      {inputData ? (
-        <QRCode
-          value={inputData.QrCodeId}
-          size={200}
-          color="black"
-          backgroundColor="white"
-          key={inputData.QrCodeId}
-        />
-      ) : null}
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text>Retour</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.flex}>
+        <Text style={styles.title}>Scannez le QRCode</Text>
+        {inputData ? (
+          <QRCode
+            value={inputData.QrCodeId}
+            size={200}
+            color="black"
+            backgroundColor="white"
+            key={inputData.QrCodeId}
+          />
+        ) : null}
+        <Text style={styles.description}>{inputData.presents?.length}/{inputData.students?.length}</Text>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 40,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  flex: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 50,
+    marginTop: 50
+  },
+  description:{
+    fontSize: 28,
+    fontWeight: "bold",
+    marginTop: 50
+  },
+});
 
 export default QRCodeGenerator;
