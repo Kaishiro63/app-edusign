@@ -49,7 +49,7 @@ const AdminScreen = ({ navigation }) => {
   };
 
   const handleGenerateQR = (coursId) => {
-    navigation.navigate("QrCodeScreen", { courseId: coursId });
+    navigation.navigate("QrCodeScreen", { coursId });
     console.log('Navigating to QrCodeScreen with courseId:', coursId);
   };
 
