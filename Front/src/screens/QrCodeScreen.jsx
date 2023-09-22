@@ -5,6 +5,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 const QRCodeGenerator = ({ route }) => {
   const [inputData, setInputData] = useState(null);
+  const [coursDetails, setCoursDetails] = useState(null);
   const coursId = route.params?.coursId;
   const isFocused = useIsFocused();
 
@@ -27,6 +28,23 @@ const QRCodeGenerator = ({ route }) => {
     }
   };
 
+  const fetchCourse = async () => {
+    try{
+      const response = await fetch(`https://app-edusign-back1.vercel.app/cours/cours-details?coursUid=${coursId}`
+      );
+      if(response.status !== 200) throw new Error("Erreur de fetch");
+      const data = await response.json();
+      if (!data.result) {
+        console.log("Erreur de fetch");
+        return;
+      } else {
+        setCoursDetails(data);
+      }
+    }catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isFocused) {
       fetchData();
@@ -34,7 +52,8 @@ const QRCodeGenerator = ({ route }) => {
       // Rafraîchissement toutes les 5 secondes
       const intervalId = setInterval(() => {
         fetchData();
-      }, 3000);
+        fetchCourse();
+      }, 1000);
 
       return () => {
         // Nettoyer l'intervalle lorsque le composant est désassemblé ou lorsque l'écran perd le focus
@@ -43,12 +62,12 @@ const QRCodeGenerator = ({ route }) => {
     }
   }, [isFocused]);
 
-  if(!inputData) return null;
+  if(!inputData || !coursDetails) return null; 
 
+  console.log(coursDetails.coursDetails.presents?.length)
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{inputData.QrCodeId}</Text>
-      <Text>{inputData.presents?.length}/{inputData.students?.length}</Text>
+      <Text>{coursDetails.coursDetails.presents?.length}/{coursDetails.coursDetails.students?.length}</Text>
 
       {inputData ? (
         <QRCode
