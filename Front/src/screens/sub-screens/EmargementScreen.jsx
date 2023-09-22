@@ -84,7 +84,7 @@ const EmargementScreen = ({ navigation }) => {
   });
 
   return (
-    <ScrollView style={{flex: 1}}>
+    <ScrollView style={{flex: 1, backgroundColor: "#FFF"}}>
       <View style={styles.col}>
         <Text style={styles.sectionTitle}>Cours d'aujourd'hui</Text>
         {todayCoursesJSX}
