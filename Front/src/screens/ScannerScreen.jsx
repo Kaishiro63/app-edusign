@@ -38,6 +38,7 @@ const ScannerScreen = () => {
 
       const responseData = await response.json();
       console.log('Réponse de la requête POST :', responseData);
+      alert(responseData.message);
     } catch (error) {
       console.error('Erreur lors de la requête POST :', error);
     }
