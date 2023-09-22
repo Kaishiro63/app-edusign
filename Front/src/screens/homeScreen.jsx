@@ -82,13 +82,12 @@ const HomeScreen = ({ navigation }) => {
 const screenStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
-        paddingBottom: 120,
-        paddingHorizontal: 30,
-        paddingTop: 40
+        backgroundColor: '#FFF',
+        paddingHorizontal: 20,
+        paddingTop: 50
     },
     title: {
-        fontSize: 28,
+        fontSize: 32,
         fontWeight: 'bold'
     },
     text: {
@@ -103,7 +102,6 @@ const screenStyles = StyleSheet.create({
     },
     scrollViewContent: {
         alignItems: 'flex-start',
-
     },
     card: {
         borderRadius: 10,
