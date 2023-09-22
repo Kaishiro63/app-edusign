@@ -11,6 +11,7 @@ import AdminScreen from "../screens/AdminScreen";
 import QrCodeScreen from "../screens/QrCodeScreen";
 import AdminFormScreen from "../screens/AdminFormScreen";
 import { useSelector } from "react-redux";
+import ChangePassword from "../screens/sub-screens/ChangePassword";
 
 const Tab = createBottomTabNavigator();
 const MainTabBar = () => {

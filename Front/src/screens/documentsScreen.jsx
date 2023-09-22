@@ -1,11 +1,36 @@
-import { View, Text } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const DocumentsScreen = () => {
+const DocumentScreen = () => {
+
     return (
-        <View>
-            <Text>DocumentsScreen</Text>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.title}>Document</Text>
+            </View>
+            <Text>Tout vos documents</Text>
         </View>
     );
 }
 
-export default DocumentsScreen;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#FFF",
+        paddingHorizontal: 20
+    },
+    header: {
+        marginBottom: 20,
+    },
+    flex: {
+        display: "flex",
+        justifyContent: "space-between"
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        marginTop: 50
+    },
+});
+
+export default DocumentScreen;
