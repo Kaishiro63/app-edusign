@@ -11,17 +11,16 @@ const QRCodeGenerator = ({ route }) => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `https://app-edusign-back1.vercel.app/cours/cours-details?coursUid=${coursId}`
+        `https://app-edusign-back1.vercel.app/cours/qr-code-generator?coursUid=${coursId}`
       );
       const data = await response.json();
       if (!data.result) {
         console.log("Erreur de fetch");
         return;
       } else {
-        setInputData(data.coursDetails);
+        setInputData(data);
 
         // Afficher un message dans la console à chaque rafraîchissement
-        console.log('Le code QR a été actualisé.');
       }
     } catch (error) {
       console.log(error);
@@ -35,7 +34,7 @@ const QRCodeGenerator = ({ route }) => {
       // Rafraîchissement toutes les 5 secondes
       const intervalId = setInterval(() => {
         fetchData();
-      }, 5000);
+      }, 3000);
 
       return () => {
         // Nettoyer l'intervalle lorsque le composant est désassemblé ou lorsque l'écran perd le focus
@@ -48,16 +47,16 @@ const QRCodeGenerator = ({ route }) => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>{inputData._id}</Text>
+      <Text>{inputData.QrCodeId}</Text>
       <Text>{inputData.presents?.length}/{inputData.students?.length}</Text>
 
       {inputData ? (
         <QRCode
-          value={inputData._id}
+          value={inputData.QrCodeId}
           size={200}
           color="black"
           backgroundColor="white"
-          key={inputData._id}
+          key={inputData.QrCodeId}
         />
       ) : null}
     </View>

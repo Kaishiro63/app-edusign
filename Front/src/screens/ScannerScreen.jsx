@@ -21,10 +21,11 @@ const ScannerScreen = () => {
     })();
   }, []);
 
-  const sendPostRequest = async (userId, coursId) => {
+  const sendPostRequest = async (qrCodeIdCrypted, timeStampCrypted, userId) => {
     const requestData = {
+      encryptedId: qrCodeIdCrypted,
+      encryptedExpirationDate: timeStampCrypted,
       userId: userId,
-      coursId: coursId,
     };
 
     try {
@@ -38,6 +39,7 @@ const ScannerScreen = () => {
 
       const responseData = await response.json();
       console.log('Réponse de la requête POST :', responseData);
+      alert(responseData.message);
     } catch (error) {
       console.error('Erreur lors de la requête POST :', error);
     }
@@ -46,9 +48,16 @@ const ScannerScreen = () => {
   const handleBarCodeScanned = ({ data }) => {
     setScanned(true);
     const userId = currentUser ? currentUser.id : 'Unknown user';
-    const coursId = data;
+    // const coursId = data;
 
-    sendPostRequest(userId, coursId);
+    const QrCodeId = data;
+    const cutQrCodeId = QrCodeId.split("-");
+    const qrCodeIdCrypted = cutQrCodeId[0];
+    const timeStampCrypted = cutQrCodeId[1];
+    console.log("HandleBarCodeScanned QRCODECRYPTED: ",qrCodeIdCrypted);
+    console.log("HandleBarCodeScanned timestamp",timeStampCrypted);
+
+    sendPostRequest(qrCodeIdCrypted, timeStampCrypted, userId);
     navigation.navigate('Accueil');
   };
 
