@@ -11,6 +11,7 @@ function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [errMessage, seErrMessage] = useState('')
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -25,15 +26,20 @@ function LoginScreen({ navigation }) {
                 },
                 body: JSON.stringify({email, password})
             })
-            let data = await response.json()
-            dispatch(login({id : data.dataUser.id, admin : data.dataUser.admin }))
-            console.log('yesssss', currentUser)
-            navigation.navigate('MainTab');
+            const data = await response.json()
+            console.log(data)
+            if (data.result) {
+                dispatch(login({id : data.dataUser.id, admin : data.dataUser.admin }))
+                console.log('yesssss', currentUser)
+                navigation.navigate('MainTab');
+            } else if (data.error === 'User not found or mauvais password') {
+                seErrMessage('Utilisateur introuvable ou mot de passe incorrect')
+            } else {
+                seErrMessage('Champs manquants')
+            }
         }
         catch (e) {
             console.log(e)
-        // if (e instanceof Error)
-        //     setError(e.message)
         }
     };
 
@@ -105,6 +111,7 @@ function LoginScreen({ navigation }) {
                     />
                 </View>
                 <View style={styles.flex}>
+                    <Text style={styles.errMessage}>{errMessage}</Text>
                     <TouchableOpacity
                         style={styles.loginBtn}
                         onPress={() => handleSubmit()}
@@ -193,6 +200,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         maxWidth: 260,
     },
+    errMessage : {
+
+    }
 });
 
 export default LoginScreen;
