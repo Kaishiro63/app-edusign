@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
 
-
 const EmargementScreen = ({ navigation }) => {
   const [cours, setCours] = useState([]);
   const currentUser = useSelector((state) => state.user.value);
-
 
   useEffect(() => {
     const handleGetAllCours = async () => {
@@ -52,17 +50,24 @@ const EmargementScreen = ({ navigation }) => {
   };
 
   const handleCoursePress = (cours) => {
-    navigation.navigate('SingleCours', cours);
+    navigation.navigate("SingleCours", cours);
   };
 
   const todayCoursesJSX = todayCourses.map((cours) => {
     return (
-      <TouchableOpacity key={cours.id} style={styles.container} onPress={() => handleCoursePress(cours)}>
+      <TouchableOpacity
+        key={cours.id}
+        style={styles.container}
+        onPress={() => handleCoursePress(cours)}
+      >
         <Text style={styles.book}>📖</Text>
         <View style={styles.infoContainer}>
           <Text style={styles.title}>{cours.titre}</Text>
           <View style={styles.timeContainer}>
-            <Text style={styles.hourStart}>{formatDateToHourMinute(cours.start)} - <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text></Text>
+            <Text style={styles.hourStart}>
+              {formatDateToHourMinute(cours.start)} -{" "}
+              <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text>
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -71,12 +76,19 @@ const EmargementScreen = ({ navigation }) => {
 
   const pastCoursesJSX = pastCourses.map((cours) => {
     return (
-      <TouchableOpacity key={cours.id} style={styles.container} onPress={() => handleCoursePress(cours)}>
+      <TouchableOpacity
+        key={cours.id}
+        style={styles.container}
+        onPress={() => handleCoursePress(cours)}
+      >
         <Text style={styles.book}>📖</Text>
         <View style={styles.infoContainer}>
           <Text style={styles.title}>{cours.titre}</Text>
           <View style={styles.timeContainer}>
-            <Text style={styles.hourStart}>{formatDateToHourMinute(cours.start)} - <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text></Text>
+            <Text style={styles.hourStart}>
+              {formatDateToHourMinute(cours.start)} -{" "}
+              <Text style={styles.hourEnd}>{formatDateToHourMinute(cours.end)}</Text>
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -84,11 +96,16 @@ const EmargementScreen = ({ navigation }) => {
   });
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: "#FFF"}}>
+    <ScrollView style={{ flex: 1, backgroundColor: "#FFF" }}>
       <View style={styles.col}>
-        <Text style={styles.sectionTitle}>Cours d'aujourd'hui</Text>
-        {todayCoursesJSX}
-
+        {todayCourses.length === 0 ? (
+          <Text style={styles.sectionTitle}>Vous n'avez pas de cours aujourd'hui</Text>
+        ) : (
+          <>
+            <Text style={styles.sectionTitle}>Cours d'aujourd'hui</Text>
+            {todayCoursesJSX}
+          </>
+        )}
         <Text style={styles.sectionTitle}>Cours passés</Text>
         {pastCoursesJSX}
       </View>
@@ -98,11 +115,11 @@ const EmargementScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: "#FFF"
+    backgroundColor: "#FFF",
   },
   col: {
     display: "flex",
@@ -115,32 +132,32 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 5,
-    marginRight: 10
+    marginRight: 10,
   },
   infoContainer: {
     flex: 1,
   },
   timeContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10
+    fontWeight: "bold",
+    marginBottom: 10,
   },
   hourStart: {
     marginRight: 10,
-    color: '#AAAAAA',
+    color: "#AAAAAA",
   },
   hourEnd: {
-    color: '#AAAAAA',
+    color: "#AAAAAA",
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 20,
-    marginBottom: 5
-  }
+    marginBottom: 5,
+  },
 });
 
 export default EmargementScreen;
