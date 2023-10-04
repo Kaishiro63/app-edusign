@@ -19,7 +19,6 @@ const Stack = createNativeStackNavigator();
 export const Route = () => {
 
     const isUser = useSelector((state) => state.user.value.id);
-    console.log("isUser ici",isUser)
 
     if(!isUser){
         return (

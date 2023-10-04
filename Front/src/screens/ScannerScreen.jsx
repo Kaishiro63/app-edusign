@@ -29,8 +29,6 @@ const ScannerScreen = () => {
       userId: userId,
     };
 
-    console.log('Requête POST envoyée :', requestData)
-
     try {
       const response = await fetch('https://app-edusign-back1.vercel.app/cours/qr-code-scan', {
         method: 'POST',
@@ -57,8 +55,6 @@ const ScannerScreen = () => {
     const cutQrCodeId = QrCodeId.split("-");
     const qrCodeIdCrypted = cutQrCodeId[0];
     const timeStampCrypted = cutQrCodeId[1];
-    console.log("HandleBarCodeScanned QRCODECRYPTED: ",qrCodeIdCrypted);
-    console.log("HandleBarCodeScanned timestamp",timeStampCrypted);
 
     sendPostRequest(qrCodeIdCrypted, timeStampCrypted, userId);
     navigation.navigate('Accueil');

@@ -21,7 +21,6 @@ const HomeScreen = ({ navigation }) => {
 
     useEffect(() => {
         const handleGetUser = async () => {
-          console.log("test");
           try {
             const response = await fetch(
               `https://app-edusign-back1.vercel.app/users/profile?uid=${currentUser.id}`

@@ -64,7 +64,6 @@ const QRCodeGenerator = ({ route, navigation }) => {
 
   if(!inputData || !coursDetails) return null; 
 
-  console.log(coursDetails.coursDetails.presents?.length)
   return (
     <View style={styles.container}>
       <View style={styles.header}>

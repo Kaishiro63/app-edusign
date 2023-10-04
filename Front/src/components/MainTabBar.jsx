@@ -17,7 +17,6 @@ import ChangePassword from "../screens/sub-screens/ChangePassword";
 const Tab = createBottomTabNavigator();
 const MainTabBar = () => {
   const currentUser = useSelector((state) => state.user.value);
-  console.log("je suis ici",currentUser)
 
   if(!currentUser.admin){
     return (

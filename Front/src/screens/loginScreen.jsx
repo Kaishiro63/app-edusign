@@ -27,10 +27,8 @@ function LoginScreen({ navigation }) {
                 body: JSON.stringify({email, password})
             })
             const data = await response.json()
-            console.log(data)
             if (data.result) {
                 dispatch(login({id : data.dataUser.id, admin : data.dataUser.admin }))
-                console.log('yesssss', currentUser)
                 navigation.navigate('MainTab');
             } else if (data.error === 'User not found or mauvais password') {
                 seErrMessage('Utilisateur introuvable ou mot de passe incorrect')

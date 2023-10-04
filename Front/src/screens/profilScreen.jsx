@@ -54,7 +54,6 @@ const ProfilScreen = ({navigation}) => {
   };
 
   handleChangePassword = () => {
-    console.log("Change password");
     navigation.navigate('ChangePassword');
   };
 
